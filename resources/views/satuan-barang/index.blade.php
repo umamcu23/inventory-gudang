@@ -4,277 +4,340 @@
 @include('satuan-barang.edit')
 
 @section('content')
-    <div class="section-header">
-        <h1>Satuan Barang</h1>
-        <div class="ml-auto">
-            <a href="javascript:void(0)" class="btn btn-primary" id="button_tambah_satuan"><i class="fa fa-plus"></i> Satuan
-                Barang</a>
-        </div>
-    </div>
-
     <div class="row">
-        <div class="col-lg-12">
-            <div class="card">
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table id="table_id" class="display">
-                            <thead>
-                                <tr>
-                                    <th>No</th>
-                                    <th>Satuan Barang</th>
-                                    <th>Opsi</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                        </table>
+    <div class="col-lg-12">
+
+        <div class="modern-table-card">
+
+            <!-- HEADER -->
+            <div class="modern-table-header">
+
+                <div class="modern-table-header-left">
+
+                    <div class="modern-table-icon">
+                        <i class="fa fa-balance-scale"></i>
                     </div>
+
+                    <div>
+                        <h5 class="modern-table-title">
+                            Satuan Barang
+                        </h5>
+
+                        <p class="modern-table-subtitle">
+                            Kelola satuan barang (pcs, box, kg, dll)
+                        </p>
+                    </div>
+
                 </div>
+
+                <div class="modern-table-header-right">
+                    <div class="modern-table-chip">
+                        Master Data
+                    </div>
+
+                    <button class="btn modern-btn-primary"
+                            id="button_tambah_satuan">
+
+                        <i class="fa fa-plus"></i>
+                        Tambah Satuan
+                    </button>
+
+                </div>
+
             </div>
+
+            <!-- TABLE -->
+            <div class="table-responsive modern-table-wrapper">
+
+                <table id="table_id"
+                       class="table modern-table align-middle mb-0">
+
+                    <thead>
+                        <tr>
+                            <th width="60">No</th>
+                            <th>Satuan Barang</th>
+                            <th width="160" class="text-center">Aksi</th>
+                        </tr>
+                    </thead>
+
+                    <tbody></tbody>
+
+                </table>
+
+            </div>
+
         </div>
+
     </div>
-    <!-- Datatables Jquery -->
+</div>
     <script>
-        $(document).ready(function() {
-            $('#table_id').DataTable({
-                paging: true
-            });
+        $(document).ready(function () {
 
-            $.ajax({
-                url: "/satuan-barang/get-data",
-                type: "GET",
-                dataType: 'JSON',
-                success: function(response) {
-                    let counter = 1;
-                    $('#table_id').DataTable().clear();
-                    $.each(response.data, function(key, value) {
-                        let satuan = `
-                <tr class="barang-row" id="index_${value.id}">
-                    <td>${counter++}</td>   
-                    <td>${value.satuan}</td>
-                    <td>
-                        <a href="javascript:void(0)" id="button_edit_satuan" data-id="${value.id}" class="btn btn-icon btn-warning btn-lg mb-2"><i class="far fa-edit"></i> </a>
-                        <a href="javascript:void(0)" id="button_hapus_satuan" data-id="${value.id}" class="btn btn-icon btn-danger btn-lg mb-2"><i class="fas fa-trash"></i> </a>
-                    </td>
-                </tr>
-            `;
-                        $('#table_id').DataTable().row.add($(satuan)).draw(false);
-                    });
+            loadSatuan();
+
+            /* =========================
+            LOAD DATA TABLE
+            ========================= */
+            function loadSatuan() {
+
+                if ($.fn.DataTable.isDataTable('#table_id')) {
+                    $('#table_id').DataTable().clear().destroy();
                 }
-            });
-        });
-    </script>
 
-    <!-- Show Modal Tambah Jenis Barang -->
-    <script>
-        $('body').on('click', '#button_tambah_satuan', function() {
-            $('#modal_tambah_satuan').modal('show');
-        });
+                let table = $('#table_id').DataTable({
+                    paging: true
+                });
 
-        $('#store').click(function(e) {
-            e.preventDefault();
+                $.ajax({
+                    url: "/satuan-barang/get-data",
+                    type: "GET",
+                    dataType: "JSON",
+                    success: function (response) {
 
-            let satuan = $('#satuan').val();
-            let token = $("meta[name='csrf-token']").attr("content");
+                        let counter = 1;
 
-            let formData = new FormData();
-            formData.append('satuan', satuan);
-            formData.append('_token', token);
+                        $.each(response.data, function (key, value) {
 
-            $.ajax({
-                url: '/satuan-barang',
-                type: "POST",
-                cache: false,
-                data: formData,
-                contentType: false,
-                processData: false,
-
-                success: function(response) {
-                    Swal.fire({
-                        type: 'success',
-                        icon: 'success',
-                        title: `${response.message}`,
-                        showConfirmButton: true,
-                        timer: 3000
-                    });
-
-                    $.ajax({
-                        url: '/satuan-barang/get-data',
-                        type: "GET",
-                        cache: false,
-                        success: function(response) {
-                            $('#table-barangs').html('');
-
-                            let counter = 1;
-                            $('#table_id').DataTable().clear();
-                            $.each(response.data, function(key, value) {
-                                let satuan = `
-                                <tr class="barang-row" id="index_${value.id}">
-                                    <td>${counter++}</td>   
+                            let row = `
+                                <tr id="index_${value.id}">
+                                    <td>${counter++}</td>
                                     <td>${value.satuan}</td>
-                                    <td>
-                                        <a href="javascript:void(0)" id="button_edit_satuan" data-id="${value.id}" class="btn btn-icon btn-warning btn-lg mb-2"><i class="far fa-edit"></i> </a>
-                                        <a href="javascript:void(0)" id="button_hapus_satuan" data-id="${value.id}" class="btn btn-icon btn-danger btn-lg mb-2"><i class="fas fa-trash"></i> </a>
+                                    <td class="text-center">
+
+                                        <a href="javascript:void(0)"
+                                        id="button_edit_satuan"
+                                        data-id="${value.id}"
+                                        class="modern-action-btn edit">
+
+                                            <i class="far fa-edit"></i>
+                                        </a>
+
+                                        <a href="javascript:void(0)"
+                                        id="button_hapus_satuan"
+                                        data-id="${value.id}"
+                                        class="modern-action-btn delete">
+
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+
                                     </td>
                                 </tr>
-                             `;
-                                $('#table_id').DataTable().row.add($(satuan)).draw(
-                                    false);
-                            });
+                            `;
 
-                            $('#satuan').val('');
-                            $('#modal_tambah_satuan').modal('hide');
+                            table.row.add($(row)).draw(false);
+                        });
 
-                            let table = $('#table_id').DataTable();
-                            table.draw(); // memperbarui Datatables
-                        },
-                        error: function(error) {
-                            console.log(error);
-                        }
-                    })
-                },
-
-                error: function(error) {
-                    if (error.responseJSON && error.responseJSON.satuan && error.responseJSON.satuan[
-                        0]) {
-                        $('#alert-satuan').removeClass('d-none');
-                        $('#alert-satuan').addClass('d-block');
-
-                        $('#alert-satuan').html(error.responseJSON.satuan[0]);
                     }
-                }
+                });
+            }
+
+            /* =========================
+            OPEN MODAL TAMBAH
+            ========================= */
+            $('body').on('click', '#button_tambah_satuan', function () {
+                $('#modal_tambah_satuan').modal('show');
             });
-        });
-    </script>
 
-    <!-- Edit Data Jenis Barang -->
-    <script>
-        //Show modal edit
-        $('body').on('click', '#button_edit_satuan', function() {
-            let satuan_id = $(this).data('id');
+            /* =========================
+            RESET MODAL TAMBAH
+            ========================= */
+            function resetModalSatuan() {
 
-            $.ajax({
-                url: `/satuan-barang/${satuan_id}/edit`,
-                type: "GET",
-                cache: false,
-                success: function(response) {
-                    $('#satuan_id').val(response.data.id);
-                    $('#edit_satuan').val(response.data.satuan);
+                $('#satuan').val('');
 
-                    $('#modal_edit_satuan').modal('show');
-                }
+                $('#alert-satuan')
+                    .removeClass('d-block')
+                    .addClass('d-none')
+                    .text('');
+
+            }
+
+            $('#modal_tambah_satuan').on('hidden.bs.modal', function () {
+                resetModalSatuan();
             });
-        });
 
-        // Proses Update Data
-        $('#update').click(function(e) {
-            e.preventDefault();
+            /* =========================
+            CREATE (STORE)
+            ========================= */
+            $('#store').click(function (e) {
 
-            let satuan_id = $('#satuan_id').val();
-            let satuan = $('#edit_satuan').val();
-            let token = $("meta[name='csrf-token']").attr('content');
+                e.preventDefault();
 
-            let formData = new FormData();
-            formData.append('satuan', satuan);
-            formData.append('_token', token);
-            formData.append('_method', 'PUT');
+                let formData = new FormData();
+                formData.append('satuan', $('#satuan').val());
+                formData.append('_token', $("meta[name='csrf-token']").attr("content"));
 
-            $.ajax({
-                url: `/satuan-barang/${satuan_id}`,
-                type: "POST",
-                cache: false,
-                data: formData,
-                contentType: false,
-                processData: false,
+                $.ajax({
+                    url: '/satuan-barang',
+                    type: "POST",
+                    data: formData,
+                    contentType: false,
+                    processData: false,
 
-                success: function(response) {
-                    Swal.fire({
-                        type: 'success',
-                        icon: 'success',
-                        title: `${response.message}`,
-                        showConfirmButton: true,
-                        timer: 3000
-                    });
+                    success: function (res) {
 
-                    let row = $(`#index_${response.data.id}`);
-                    let rowData = row.find('td');
-                    rowData.eq(1).text(response.data.satuan);
+                        Swal.fire({
+                            icon: 'success',
+                            title: res.message,
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
 
-                    $('#modal_edit_satuan').modal('hide');
-                },
+                        $('#modal_tambah_satuan').modal('hide');
+                        resetModalSatuan();
 
-                error: function(error) {
-                    if (error.responseJSON && error.responseJSON.satuan && error.responseJSON.satuan[
-                        0]) {
-                        $('#alert-satuan').removeClass('d-none');
-                        $('#alert-satuan').addClass('d-block');
+                        loadSatuan();
 
-                        $('#alert-satuan').html(error.responseJSON.satuan[0]);
+                    },
+
+                    error: function (err) {
+
+                        $('#alert-satuan')
+                            .removeClass('d-none')
+                            .addClass('d-block')
+                            .text(err.responseJSON.satuan[0]);
+
                     }
-                }
+
+                });
+
             });
-        });
-    </script>
 
-    <!-- Hapus Data Barang -->
-    <script>
-        $('body').on('click', '#button_hapus_satuan', function() {
-            let satuan_id = $(this).data('id');
-            let token = $("meta[name='csrf-token']").attr("content");
+            /* =========================
+            EDIT (GET DATA)
+            ========================= */
+            $('body').on('click', '#button_edit_satuan', function () {
 
-            Swal.fire({
-                title: 'Apakah Kamu Yakin?',
-                text: "ingin menghapus data ini !",
-                icon: 'warning',
-                showCancelButton: true,
-                cancelButtonText: 'TIDAK',
-                confirmButtonText: 'YA, HAPUS!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $.ajax({
-                        url: `/satuan-barang/${satuan_id}`,
-                        type: "DELETE",
-                        cache: false,
-                        data: {
-                            "_token": token
-                        },
-                        success: function(response) {
-                            Swal.fire({
-                                type: 'success',
-                                icon: 'success',
-                                title: `${response.message}`,
-                                showConfirmButton: true,
-                                timer: 3000
-                            });
-                            $(`#index_${satuan_id}`).remove();
+                let id = $(this).data('id');
 
-                            $.ajax({
-                                url: "/satuan-barang/get-data",
-                                type: "GET",
-                                dataType: 'JSON',
-                                success: function(response) {
-                                    let counter = 1;
-                                    $('#table_id').DataTable().clear();
-                                    $.each(response.data, function(key, value) {
-                                        let satuan = `
-                                        <tr class="barang-row" id="index_${value.id}">
-                                            <td>${counter++}</td>   
-                                            <td>${value.satuan}</td>
-                                            <td>
-                                                <a href="javascript:void(0)" id="button_edit_satuan" data-id="${value.id}" class="btn btn-icon btn-warning btn-lg mb-2"><i class="far fa-edit"></i> </a>
-                                                <a href="javascript:void(0)" id="button_hapus_satuan" data-id="${value.id}" class="btn btn-icon btn-danger btn-lg mb-2"><i class="fas fa-trash"></i> </a>
-                                            </td>
-                                        </tr>
-                                    `;
-                                        $('#table_id').DataTable().row.add(
-                                            $(satuan)).draw(false);
-                                    });
-                                }
-                            });
-                        }
-                    })
-                }
+                $.ajax({
+                    url: `/satuan-barang/${id}/edit`,
+                    type: "GET",
+                    success: function (res) {
+
+                        $('#satuan_id').val(res.data.id);
+                        $('#edit_satuan').val(res.data.satuan);
+
+                        $('#modal_edit_satuan').modal('show');
+
+                    }
+
+                });
+
             });
+
+            /* =========================
+            RESET MODAL EDIT
+            ========================= */
+            function resetModalEditSatuan() {
+
+                $('#satuan_id').val('');
+                $('#edit_satuan').val('');
+
+                $('#alert-edit-satuan')
+                    .removeClass('d-block')
+                    .addClass('d-none')
+                    .text('');
+
+            }
+
+            $('#modal_edit_satuan').on('hidden.bs.modal', function () {
+                resetModalEditSatuan();
+            });
+
+            /* =========================
+            UPDATE DATA
+            ========================= */
+            $('#update').click(function (e) {
+
+                e.preventDefault();
+
+                let id = $('#satuan_id').val();
+
+                let formData = new FormData();
+                formData.append('satuan', $('#edit_satuan').val());
+                formData.append('_token', $("meta[name='csrf-token']").attr("content"));
+                formData.append('_method', 'PUT');
+
+                $.ajax({
+                    url: `/satuan-barang/${id}`,
+                    type: "POST",
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+
+                    success: function (res) {
+
+                        Swal.fire({
+                            icon: 'success',
+                            title: res.message,
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+
+                        $('#modal_edit_satuan').modal('hide');
+
+                        loadSatuan();
+
+                    },
+
+                    error: function (err) {
+
+                        $('#alert-edit-satuan')
+                            .removeClass('d-none')
+                            .addClass('d-block')
+                            .text(err.responseJSON.satuan[0]);
+
+                    }
+
+                });
+
+            });
+
+            /* =========================
+            DELETE DATA
+            ========================= */
+            $('body').on('click', '#button_hapus_satuan', function () {
+
+                let id = $(this).data('id');
+
+                Swal.fire({
+                    title: 'Yakin hapus data ini?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Ya, Hapus!'
+                }).then((result) => {
+
+                    if (result.isConfirmed) {
+
+                        $.ajax({
+                            url: `/satuan-barang/${id}`,
+                            type: "DELETE",
+                            data: {
+                                _token: $("meta[name='csrf-token']").attr("content")
+                            },
+
+                            success: function (res) {
+
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: res.message,
+                                    timer: 2000,
+                                    showConfirmButton: false
+                                });
+
+                                $(`#index_${id}`).remove();
+
+                            }
+
+                        });
+
+                    }
+
+                });
+
+            });
+
         });
     </script>
 @endsection

@@ -5,471 +5,829 @@
 @include('barang.show')
 
 @section('content')
-    <div class="section-header">
-        <h1>Data Barang</h1>
-        <div class="ml-auto">
-            <a href="javascript:void(0)" class="btn btn-primary" id="button_tambah_barang"><i class="fa fa-plus"></i> Tambah
-                Barang</a>
-        </div>
-    </div>
+ <div class="row">
+    <div class="col-lg-12">
 
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="card">
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table id="table_id" class="display">
-                            <thead>
-                                <tr>
-                                    <th>No</th>
-                                    <th>Gambar</th>
-                                    <th>Kode Barang</th>
-                                    <th>Nama Barang</th>
-                                    <th>Stok</th>
-                                    <th>Opsi</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                        </table>
+        <div class="modern-table-card">
+
+            <!-- TABLE HEADER (SUDAH TERMASUK BUTTON) -->
+            <div class="modern-table-header">
+
+                <!-- LEFT -->
+                <div class="modern-table-header-left">
+
+                    <div class="modern-table-icon">
+                        <i class="fa fa-box"></i>
                     </div>
+
+                    <div>
+                        <h5 class="modern-table-title">
+                            Data Barang
+                        </h5>
+
+                        <p class="modern-table-subtitle">
+                            Kelola seluruh data barang dengan mudah dan cepat
+                        </p>
+
+                    </div>
+
                 </div>
+
+                <!-- RIGHT ACTION -->
+                <div class="modern-table-header-right d-flex align-items-center gap-2">
+
+                    <div class="modern-table-chip mr-2">
+                        Master Data
+                    </div>
+
+                    <a href="javascript:void(0)"
+                        class="btn modern-btn-primary"
+                        id="button_tambah_barang">
+
+                        <i class="fa fa-plus mr-1"></i>
+                        <span>Tambah Barang</span>
+
+                    </a>
+
+                </div>
+
             </div>
+
+            <!-- TABLE -->
+            <div class="table-responsive modern-table-wrapper">
+
+                <table id="table_id"
+                    class="table modern-table align-middle mb-0">
+
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Gambar</th>
+                            <th>Kode</th>
+                            <th>Nama Barang</th>
+                            <th>Stok</th>
+                            <th class="text-center">Aksi</th>
+                        </tr>
+                    </thead>
+
+                    <tbody></tbody>
+
+                </table>
+
+            </div>
+
         </div>
+
     </div>
+</div>
 
     <!-- Datatables Jquery -->
     <script>
-        $(document).ready(function() {
-            $('#table_id').DataTable({
-                paging: true
-            });
 
-            $.ajax({
-                url: "/barang/get-data",
-                type: "GET",
-                dataType: 'JSON',
-                success: function(response) {
-                    let counter = 1;
-                    $('#table_id').DataTable().clear();
-                    $.each(response.data, function(key, value) {
-                        let stok = value.stok != null ? value.stok : "Stok Kosong";
-                        let barang = `
-                <tr class="barang-row" id="index_${value.id}">
-                    <td>${counter++}</td>
-                    <td><img src="/storage/${value.gambar}" alt="gambar Barang" style="width: 150px"; height="150px"></td>
-                    <td>${value.kode_barang}</td>
-                    <td>${value.nama_barang}</td>
-                    <td>${stok}</td>
-                    <td>
-                        <a href="javascript:void(0)" id="button_detail_barang" data-id="${value.id}" class="btn btn-icon btn-success btn-lg mb-2"><i class="far fa-eye"></i> </a>
-                        <a href="javascript:void(0)" id="button_edit_barang" data-id="${value.id}" class="btn btn-icon btn-warning btn-lg mb-2"><i class="far fa-edit"></i> </a>
-                        <a href="javascript:void(0)" id="button_hapus_barang" data-id="${value.id}" class="btn btn-icon btn-danger btn-lg mb-2"><i class="fas fa-trash"></i> </a>
-                    </td>
-                </tr>
+    let table;
+
+    /* =========================================
+       DOCUMENT READY
+    ========================================= */
+
+    $(document).ready(function () {
+
+        initDataTable();
+
+        loadDataBarang();
+
+    });
+
+    /* =========================================
+       INIT DATATABLE
+    ========================================= */
+
+    function initDataTable() {
+
+        table = $('#table_id').DataTable({
+
+            paging: true,
+            searching: true,
+            responsive: true,
+            autoWidth: false,
+            pageLength: 10,
+
+            language: {
+                search: "",
+                searchPlaceholder: "Cari data barang...",
+            }
+
+        });
+
+    }
+
+    /* =========================================
+       LOAD DATA BARANG
+    ========================================= */
+
+    function loadDataBarang() {
+
+        $.ajax({
+
+            url: "/barang/get-data",
+            type: "GET",
+            dataType: "JSON",
+
+            beforeSend: function () {
+
+                table.clear().draw();
+
+            },
+
+            success: function (response) {
+
+                let counter = 1;
+
+                $.each(response.data, function (key, value) {
+
+                    table.row.add([
+                        renderNumber(counter++),
+                        renderImage(value),
+                        renderKode(value),
+                        renderNama(value),
+                        renderStock(value),
+                        renderAction(value)
+                    ]).draw(false);
+
+                });
+
+            },
+
+            error: function (error) {
+
+                console.log(error);
+
+            }
+
+        });
+
+    }
+
+    /* =========================================
+       RENDER NUMBER
+    ========================================= */
+
+    function renderNumber(number) {
+
+        return `
+            <div class="modern-row-number">
+                ${number}
+            </div>
+        `;
+
+    }
+
+    /* =========================================
+       RENDER IMAGE
+    ========================================= */
+
+    function renderImage(value) {
+
+        if (value.gambar) {
+
+            return `
+                <div class="modern-product-image">
+                    <img src="/storage/${value.gambar}" alt="${value.nama_barang}">
+                </div>
             `;
-                        $('#table_id').DataTable().row.add($(barang)).draw(false);
-                    });
-                }
-            });
-        });
-    </script>
 
-    <!-- Show Modal Tambah barang -->
-    <script>
-        $('body').on('click', '#button_tambah_barang', function() {
-            $('#modal_tambah_barang').modal('show');
-        });
+        }
 
-        $('#store').click(function(e) {
-            e.preventDefault();
+        return `
+            <div class="modern-product-image empty">
+                <i class="fa fa-image"></i>
+            </div>
+        `;
 
-            let gambar = $('#gambar')[0].files[0];
-            let nama_barang = $('#nama_barang').val();
-            let stok_minimum = $('#stok_minimum').val();
-            let jenis_id = $('#jenis_id').val();
-            let satuan_id = $('#satuan_id').val();
-            let deskripsi = $('#deskripsi').val();
-            let token = $("meta[name='csrf-token']").attr("content");
+    }
 
-            let formData = new FormData();
-            formData.append('gambar', gambar);
-            formData.append('nama_barang', nama_barang);
-            formData.append('stok_minimum', stok_minimum);
-            formData.append('jenis_id', jenis_id);
-            formData.append('satuan_id', satuan_id);
-            formData.append('deskripsi', deskripsi);
-            formData.append('_token', token);
+    /* =========================================
+       RENDER KODE
+    ========================================= */
 
-            $.ajax({
-                url: '/barang',
-                type: "POST",
-                cache: false,
-                data: formData,
-                contentType: false,
-                processData: false,
+    function renderKode(value) {
 
-                success: function(response) {
-                    Swal.fire({
-                        type: 'success',
-                        icon: 'success',
-                        title: `${response.message}`,
-                        showConfirmButton: true,
-                        timer: 3000
-                    });
+        return `
+            <div class="modern-kode-barang">
+                ${value.kode_barang}
+            </div>
+        `;
 
-                    $.ajax({
-                        url: '/barang/get-data',
-                        type: "GET",
-                        cache: false,
-                        success: function(response) {
-                            $('#table-barangs').html(''); // kosongkan tabel terlebih dahulu
+    }
 
-                            let counter = 1;
-                            $('#table_id').DataTable().clear();
-                            $.each(response.data, function(key, value) {
-                                let stok = value.stok != null ? value.stok :
-                                    "Stok Kosong";
-                                let barang = `
-                            <tr class="barang-row" id="index_${value.id}">
-                                <td>${counter++}</td>
-                                <td><img src="/storage/${value.gambar}" alt="gambar Barang" style="width: 150px"; height="150px"></td>
-                                <td>${value.kode_barang}</td>
-                                <td>${value.nama_barang}</td>
-                                <td>${stok}</td>
-                                <td>
-                                    <a href="javascript:void(0)" id="button_detail_barang" data-id="${value.id}" class="btn btn-icon btn-success btn-lg mb-2"><i class="far fa-eye"></i> </a>
-                                    <a href="javascript:void(0)" id="button_edit_barang" data-id="${value.id}" class="btn btn-icon btn-warning btn-lg mb-2"><i class="far fa-edit"></i> </a>
-                                    <a href="javascript:void(0)" id="button_hapus_barang" data-id="${value.id}" class="btn btn-icon btn-danger btn-lg mb-2"><i class="fas fa-trash"></i> </a>
-                                </td>
-                            </tr>
-                        `;
-                                $('#table_id').DataTable().row.add($(barang)).draw(
-                                    false);
-                            });
+    /* =========================================
+       RENDER NAMA
+    ========================================= */
 
-                            $('#gambar').val('');
-                            $('#preview').attr('src', '');
-                            $('#nama_barang').val('');
-                            $('#stok_minimum').val('');
-                            $('#deskripsi').val('');
+    function renderNama(value) {
 
-                            $('#modal_tambah_barang').modal('hide');
+        return `
+            <div class="modern-nama-barang">
+                ${value.nama_barang}
+            </div>
+        `;
 
-                            let table = $('#table_id').DataTable();
-                            table.draw();
-                        },
-                        error: function(error) {
-                            console.log(error);
-                        }
-                    });
+    }
 
-                },
+    /* =========================================
+       RENDER STOCK
+    ========================================= */
 
-                error: function(error) {
-                    if (error.responseJSON && error.responseJSON.gambar && error.responseJSON.gambar[
-                            0]) {
-                        $('#alert-gambar').removeClass('d-none');
-                        $('#alert-gambar').addClass('d-block');
+    function renderStock(value) {
 
-                        $('#alert-gambar').html(error.responseJSON.gambar[0]);
-                    }
+        let stok = value.stok != null
+            ? value.stok
+            : "Stok Kosong";
 
-                    if (error.responseJSON && error.responseJSON.nama_barang && error.responseJSON
-                        .nama_barang[0]) {
-                        $('#alert-nama_barang').removeClass('d-none');
-                        $('#alert-nama_barang').addClass('d-block');
+        return `
+            <div class="modern-stock-badge">
+                ${stok}
+            </div>
+        `;
 
-                        $('#alert-nama_barang').html(error.responseJSON.nama_barang[0]);
-                    }
+    }
 
-                    if (error.responseJSON && error.responseJSON.stok_minimum && error.responseJSON
-                        .stok_minimum[0]) {
-                        $('#alert-stok_minimum').removeClass('d-none');
-                        $('#alert-stok_minimum').addClass('d-block');
+    /* =========================================
+       RENDER ACTION
+    ========================================= */
 
-                        $('#alert-stok_minimum').html(error.responseJSON.stok_minimum[0]);
-                    }
+    function renderAction(value) {
 
-                    if (error.responseJSON && error.responseJSON.jenis_id && error.responseJSON
-                        .jenis_id[0]) {
-                        $('#alert-jenis_id').removeClass('d-none');
-                        $('#alert-jenis_id').addClass('d-block');
+        return `
 
-                        $('#alert-jenis_id').html(error.responseJSON.jenis_id[0]);
-                    }
+            <div class="modern-action-group">
 
-                    if (error.responseJSON && error.responseJSON.satuan_id && error.responseJSON
-                        .satuan_id[0]) {
-                        $('#alert-satuan_id').removeClass('d-none');
-                        $('#alert-satuan_id').addClass('d-block');
+                <a href="javascript:void(0)"
+                    id="button_detail_barang"
+                    data-id="${value.id}"
+                    class="modern-action-btn detail">
 
-                        $('#alert-satuan_id').html(error.responseJSON.satuan_id[0]);
-                    }
+                    <i class="far fa-eye"></i>
+                </a>
 
-                    if (error.responseJSON && error.responseJSON.deskripsi && error.responseJSON
-                        .deskripsi[0]) {
-                        $('#alert-deskripsi').removeClass('d-none');
-                        $('#alert-deskripsi').addClass('d-block');
+                <a href="javascript:void(0)"
+                    id="button_edit_barang"
+                    data-id="${value.id}"
+                    class="modern-action-btn edit">
 
-                        $('#alert-deskripsi').html(error.responseJSON.deskripsi[0]);
-                    }
-                }
-            });
-        });
-    </script>
+                    <i class="far fa-edit"></i>
+                </a>
 
-    <!-- Show Detail Data Barang -->
-    <script>
-        $('body').on('click', '#button_detail_barang', function() {
-            let barang_id = $(this).data('id');
+                <a href="javascript:void(0)"
+                    id="button_hapus_barang"
+                    data-id="${value.id}"
+                    class="modern-action-btn delete">
 
-            $.ajax({
-                url: `/barang/${barang_id}/`,
-                type: "GET",
-                cache: false,
-                success: function(response) {
-                    $('#barang_id').val(response.data.id);
-                    $('#detail_gambar').val(null);
-                    $('#detail_nama_barang').val(response.data.nama_barang);
-                    $('#detail_jenis_id').val(response.data.jenis_id);
-                    $('#detail_satuan_id').val(response.data.satuan_id);
-                    $('#detail_stok').val(response.data.stok !== null && response.data.stok !== '' ?
-                        response.data.stok : 'Stok Kosong');
-                    $('#detail_stok_minimum').val(response.data.stok_minimum);
-                    $('#detail_deskripsi').val(response.data.deskripsi);
+                    <i class="fas fa-trash"></i>
+                </a>
 
-                    $('#detail_gambar_preview').attr('src', '/storage/' + response.data.gambar);
-                    $('#modal_detail_barang').modal('show');
-                }
-            });
-        });
-    </script>
+            </div>
 
-    <!-- Edit Data Barang -->
-    <script>
-        // Menampilkan Form Modal Edit
-        $('body').on('click', '#button_edit_barang', function() {
-            let barang_id = $(this).data('id');
+        `;
 
-            $.ajax({
-                url: `/barang/${barang_id}/edit`,
-                type: "GET",
-                cache: false,
-                success: function(response) {
-                    $('#barang_id').val(response.data.id);
-                    $('#edit_gambar').val(null);
-                    $('#edit_nama_barang').val(response.data.nama_barang);
-                    $('#edit_stok_minimum').val(response.data.stok_minimum);
-                    $('#edit_jenis_id').val(response.data.jenis_id);
-                    $('#edit_satuan_id').val(response.data.satuan_id);
-                    $('#edit_deskripsi').val(response.data.deskripsi);
-                    $('#edit_gambar_preview').attr('src', '/storage/' + response.data.gambar);
+    }
 
-                    $('#modal_edit_barang').modal('show');
-                }
-            });
+    /* =========================================
+       RESET FORM
+    ========================================= */
+
+    let previewImageUrl = null;
+
+    /* =========================================
+       RESET FORM
+    ========================================= */
+
+    function resetFormTambah() {
+
+        /* Reset Input */
+
+        $('#gambar').val('');
+
+        $('#nama_barang').val('');
+
+        $('#stok_minimum').val('');
+
+        $('#deskripsi').val('');
+
+        $('#jenis_id').prop('selectedIndex', 0);
+
+        $('#satuan_id').prop('selectedIndex', 0);
+
+        /* Reset Preview */
+
+        const preview =
+            document.getElementById('preview');
+
+        /* Hapus blob URL */
+
+        if (previewImageUrl) {
+
+            URL.revokeObjectURL(previewImageUrl);
+
+            previewImageUrl = null;
+
+        }
+
+        preview.removeAttribute('src');
+
+        preview.style.display = 'none';
+
+        /* Show Placeholder */
+
+        $('.modern-upload-placeholder').show();
+
+        /* Clear Validation */
+
+        clearValidation();
+
+    }
+
+
+    /* =========================================
+       CLEAR VALIDATION
+    ========================================= */
+
+    function clearValidation() {
+
+        $('.alert').removeClass('d-block').addClass('d-none');
+
+    }
+
+    /* =========================================
+       SHOW VALIDATION
+    ========================================= */
+
+    function showValidationError(error) {
+
+        let fields = [
+            'gambar',
+            'nama_barang',
+            'stok_minimum',
+            'jenis_id',
+            'satuan_id',
+            'deskripsi'
+        ];
+
+        $.each(fields, function (index, field) {
+
+            if (
+                error.responseJSON &&
+                error.responseJSON[field] &&
+                error.responseJSON[field][0]
+            ) {
+
+                $(`#alert-${field}`)
+                    .removeClass('d-none')
+                    .addClass('d-block')
+                    .html(error.responseJSON[field][0]);
+
+            }
+
         });
 
-        // Proses Update Data
-        $('#update').click(function(e) {
-            e.preventDefault();
+    }
 
-            let barang_id = $('#barang_id').val();
-            let gambar = $('#edit_gambar')[0].files[0];
-            let nama_barang = $('#edit_nama_barang').val();
-            let stok_minimum = $('#edit_stok_minimum').val();
-            let deskripsi = $('#edit_deskripsi').val();
-            let jenis_id = $('#edit_jenis_id').val();
-            let satuan_id = $('#edit_satuan_id').val();
-            let token = $("meta[name='csrf-token']").attr("content");
+    /* =========================================
+       SHOW MODAL TAMBAH
+    ========================================= */
 
+    $('body').on('click', '#button_tambah_barang', function () {
 
-            // Buat objek FormData
-            let formData = new FormData();
-            formData.append('gambar', gambar);
-            formData.append('nama_barang', nama_barang);
-            formData.append('stok_minimum', stok_minimum);
-            formData.append('deskripsi', deskripsi);
-            formData.append('jenis_id', jenis_id);
-            formData.append('satuan_id', satuan_id);
-            formData.append('_token', token);
-            formData.append('_method', 'PUT');
+        clearValidation();
 
-            $.ajax({
-                url: `/barang/${barang_id}`,
-                type: "POST",
-                cache: false,
-                data: formData,
-                contentType: false,
-                processData: false,
+        $('#modal_tambah_barang').modal('show');
 
-                success: function(response) {
-                    Swal.fire({
-                        type: 'success',
-                        icon: 'success',
-                        title: `${response.message}`,
-                        showConfirmButton: true,
-                        timer: 3000
-                    });
+    });
 
-                    let row = $(`#index_${response.data.id}`);
-                    let rowData = row.find('td');
+    /* =========================================
+       STORE DATA
+    ========================================= */
 
-                    // Memperbarui data pada kolom nomor urutan (indeks 0)
-                    rowData.eq(0).text(row.index() + 1);
+    $('#store').click(function (e) {
 
-                    // Memperbarui data pada kolom gambar (indeks 1)
-                    let imageColumn = rowData.eq(1).find('img');
-                    imageColumn.attr('src', `/storage/${response.data.gambar}`);
+        e.preventDefault();
 
-                    // Memperbarui data pada kolom kode barang (indeks 2)
-                    rowData.eq(2).text(response.data.kode_barang);
+        clearValidation();
 
-                    // Memperbarui data pada kolom nama barang (indeks 3)
-                    rowData.eq(3).text(response.data.nama_barang);
+        let formData = new FormData();
 
-                    // Memperbarui data pada kolom stok (indeks 4)
-                    let stok = response.data.stok != null ? response.data.stok : "Stok Kosong";
-                    rowData.eq(4).text(stok);
+        formData.append('gambar', $('#gambar')[0].files[0]);
+        formData.append('nama_barang', $('#nama_barang').val());
+        formData.append('stok_minimum', $('#stok_minimum').val());
+        formData.append('jenis_id', $('#jenis_id').val());
+        formData.append('satuan_id', $('#satuan_id').val());
+        formData.append('deskripsi', $('#deskripsi').val());
 
-                    $('#modal_edit_barang').modal('hide');
-                },
+        formData.append(
+            '_token',
+            $("meta[name='csrf-token']").attr("content")
+        );
 
-                error: function(error) {
-                    if (error.responseJSON && error.responseJSON.gambar && error.responseJSON.gambar[
-                            0]) {
-                        $('#alert-gambar').removeClass('d-none');
-                        $('#alert-gambar').addClass('d-block');
+        $.ajax({
 
-                        $('#alert-gambar').html(error.responseJSON.gambar[0]);
-                    }
+            url: '/barang',
+            type: "POST",
 
-                    if (error.responseJSON && error.responseJSON.nama_barang && error.responseJSON
-                        .nama_barang[0]) {
-                        $('#alert-nama_barang').removeClass('d-none');
-                        $('#alert-nama_barang').addClass('d-block');
+            cache: false,
 
-                        $('#alert-nama_barang').html(error.responseJSON.nama_barang[0]);
-                    }
+            data: formData,
 
-                    if (error.responseJSON && error.responseJSON.stok_minimum && error.responseJSON
-                        .stok_minimum[0]) {
-                        $('#alert-stok_minimum').removeClass('d-none');
-                        $('#alert-stok_minimum').addClass('d-block');
+            contentType: false,
+            processData: false,
 
-                        $('#alert-stok_minimum').html(error.responseJSON.stok_minimum[0]);
-                    }
+            success: function (response) {
 
-                    if (error.responseJSON && error.responseJSON.jenis_id && error.responseJSON
-                        .jenis_id[0]) {
-                        $('#alert-jenis_id').removeClass('d-none');
-                        $('#alert-jenis_id').addClass('d-block');
+                Swal.fire({
 
-                        $('#alert-jenis_id').html(error.responseJSON.jenis_id[0]);
-                    }
+                    icon: 'success',
+                    title: response.message,
+                    showConfirmButton: false,
+                    timer: 2000
 
-                    if (error.responseJSON && error.responseJSON.satuan_id && error.responseJSON
-                        .satuan_id[0]) {
-                        $('#alert-satuan_id').removeClass('d-none');
-                        $('#alert-satuan_id').addClass('d-block');
+                });
 
-                        $('#alert-satuan_id').html(error.responseJSON.satuan_id[0]);
-                    }
+                loadDataBarang();
 
-                    if (error.responseJSON && error.responseJSON.deskripsi && error.responseJSON
-                        .deskripsi[0]) {
-                        $('#alert-deskripsi').removeClass('d-none');
-                        $('#alert-deskripsi').addClass('d-block');
+                resetFormTambah();
 
-                        $('#alert-deskripsi').html(error.responseJSON.deskripsi[0]);
-                    }
-                }
-            })
-        })
-    </script>
+                $('#modal_tambah_barang').modal('hide');
 
-    <!-- Hapus Data Barang -->
-    <script>
-        $('body').on('click', '#button_hapus_barang', function() {
-            let barang_id = $(this).data('id');
-            let token = $("meta[name='csrf-token']").attr("content");
+            },
+
+            error: function (error) {
+
+                showValidationError(error);
+
+            }
+
+        });
+
+    });
+
+    /* =========================================
+       DETAIL BARANG
+    ========================================= */
+
+   $('body').on('click', '#button_detail_barang', function () {
+
+    let id = $(this).data('id');
+
+    $.ajax({
+        url: `/barang/${id}`,
+        type: "GET",
+        success: function (res) {
+
+            let data = res.data;
+
+            $('#detail_gambar_preview')
+                .attr('src', '/storage/' + data.gambar);
+
+            $('#detail_nama_barang').val(data.nama_barang);
+
+            $('#detail_jenis_id').val(data.jenis_id);
+
+            $('#detail_satuan_id').val(data.satuan_id);
+
+            $('#detail_stok').val(data.stok ?? 'Stok Kosong');
+
+            $('#detail_stok_minimum').val(data.stok_minimum);
+
+            $('#detail_deskripsi').val(data.deskripsi);
+
+            $('#modal_detail_barang').modal('show');
+
+        }
+    });
+
+});
+
+    /* =========================================
+       SHOW EDIT
+    ========================================= */
+
+   $('body').on('click', '#button_edit_barang', function () {
+
+    let id = $(this).data('id');
+
+    if (!id) return;
+
+    $.ajax({
+        url: `/barang/${id}/edit`,
+        type: "GET",
+        success: function (res) {
+
+            if (!res || !res.data) return;
+
+            let data = res.data;
+
+            $('#barang_id').val(data.id);
+
+            $('#edit_nama_barang').val(data.nama_barang);
+
+            $('#edit_jenis_id').val(data.jenis_id).trigger('change');
+
+            $('#edit_satuan_id').val(data.satuan_id).trigger('change');
+
+            $('#edit_stok_minimum').val(data.stok_minimum);
+
+            $('#edit_deskripsi').val(data.deskripsi);
+
+            /* =========================
+               IMAGE (TIDAK DIUBAH LOGICNYA)
+            ========================= */
+
+            let imgPath = '/storage/' + data.gambar;
+
+            $('#edit_gambar_preview')
+                .attr('src', imgPath)
+                .removeClass('d-none');
+
+            $('#edit_placeholder').hide();
+
+            // JANGAN RESET FILE INPUT (INI YANG BIKIN BUG)
+            // $('#edit_gambar').val('');
+
+            // kalau user tidak upload baru, biarkan tetap pakai lama
+            $('#edit_gambar').data('existing-image', imgPath);
+
+            // optional: kalau kamu masih pakai function ini
+            if (typeof setEditImage === 'function') {
+                setEditImage(imgPath);
+            }
+
+            /* SHOW MODAL */
+            $('#modal_edit_barang').modal('show');
+
+        },
+        error: function (xhr) {
+            console.error('Edit fetch error:', xhr.responseText);
+        }
+    });
+
+});
+    /* =========================================
+       UPDATE DATA
+    ========================================= */
+
+  $('#update').on('click', function (e) {
+
+    e.preventDefault();
+
+    clearValidation();
+
+    let barang_id = $('#barang_id').val();
+
+    if (!barang_id) {
+        Swal.fire({
+            icon: 'error',
+            title: 'ID barang tidak ditemukan'
+        });
+        return;
+    }
+
+    let formData = new FormData();
+
+    let fileInput = $('#edit_gambar')[0].files[0];
+
+    // hanya kirim kalau ada file baru
+    if (fileInput) {
+        formData.append('gambar', fileInput);
+    }
+
+    formData.append('nama_barang', $('#edit_nama_barang').val());
+    formData.append('stok_minimum', $('#edit_stok_minimum').val());
+    formData.append('deskripsi', $('#edit_deskripsi').val());
+    formData.append('jenis_id', $('#edit_jenis_id').val());
+    formData.append('satuan_id', $('#edit_satuan_id').val());
+
+    formData.append('_token', $("meta[name='csrf-token']").attr("content"));
+    formData.append('_method', 'PUT');
+
+    $.ajax({
+        url: `/barang/${encodeURIComponent(barang_id)}`,
+        type: "POST",
+        data: formData,
+        contentType: false,
+        processData: false,
+
+        success: function (response) {
 
             Swal.fire({
-                title: 'Apakah Kamu Yakin?',
-                text: "ingin menghapus data ini!",
-                icon: 'warning',
-                showCancelButton: true,
-                cancelButtonText: 'TIDAK',
-                confirmButtonText: 'YA, HAPUS!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $.ajax({
-                        url: `/barang/${barang_id}`,
-                        type: "DELETE",
-                        cache: false,
-                        data: {
-                            "_token": token
-                        },
-                        success: function(response) {
-                            Swal.fire({
-                                type: 'success',
-                                icon: 'success',
-                                title: `${response.message}`,
-                                showConfirmButton: true,
-                                timer: 3000
-                            });
+                icon: 'success',
+                title: response.message,
+                showConfirmButton: false,
+                timer: 2000
+            });
 
-                            // Hapus data dari cache DataTables
-                            $('#table_id').DataTable().clear().draw();
+            loadDataBarang();
 
-                            // Ambil ulang data dan gambar tabel
-                            $.ajax({
-                                url: "/barang/get-data",
-                                type: "GET",
-                                dataType: 'JSON',
-                                success: function(response) {
-                                    let counter = 1;
-                                    $.each(response.data, function(key, value) {
-                                        let stok = value.stok != null ?
-                                            value.stok : "Stok Kosong";
-                                        let barang = `
-                                        <tr class="barang-row" id="index_${value.id}">
-                                            <td>${counter++}</td>
-                                            <td><img src="/storage/${value.gambar}" alt="gambar Barang" style="width: 150px"; height="150px"></td>
-                                            <td>${value.kode_barang}</td>
-                                            <td>${value.nama_barang}</td>
-                                            <td>${stok}</td>
-                                            <td>
-                                                <a href="javascript:void(0)" id="button_detail_barang" data-id="${value.id}" class="btn btn-icon btn-success btn-lg mb-2"><i class="far fa-eye"></i> </a>
-                                                <a href="javascript:void(0)" id="button_edit_barang" data-id="${value.id}" class="btn btn-icon btn-warning btn-lg mb-2"><i class="far fa-edit"></i> </a>
-                                                <a href="javascript:void(0)" id="button_hapus_barang" data-id="${value.id}" class="btn btn-icon btn-danger btn-lg mb-2"><i class="fas fa-trash"></i> </a>
-                                            </td>
-                                        </tr>
-                                    `;
-                                        $('#table_id').DataTable().row.add(
-                                            $(barang)).draw(false);
-                                    });
-                                }
-                            });
-                        }
-                    })
-                }
-            })
-        })
-    </script>
+            $('#modal_edit_barang').modal('hide');
+        },
 
-
-    <!-- Preview Image -->
-    <script>
-        function previewImage() {
-            preview.src = URL.createObjectURL(event.target.files[0]);
+        error: function (error) {
+            showValidationError(error);
         }
-    </script>
+    });
 
-    <script>
-        function previewImageEdit() {
-            edit_gambar_preview.src = URL.createObjectURL(event.target.files[0]);
-        }
-    </script>
+});
+
+    /* =========================================
+       DELETE DATA
+    ========================================= */
+
+    $('body').on('click', '#button_hapus_barang', function () {
+
+        let barang_id = $(this).data('id');
+
+        let token = $("meta[name='csrf-token']").attr("content");
+
+        Swal.fire({
+
+            title: 'Apakah Kamu Yakin?',
+            text: "ingin menghapus data ini!",
+            icon: 'warning',
+
+            showCancelButton: true,
+
+            cancelButtonText: 'TIDAK',
+
+            confirmButtonText: 'YA, HAPUS!'
+
+        }).then((result) => {
+
+            if (result.isConfirmed) {
+
+                $.ajax({
+
+                    url: `/barang/${barang_id}`,
+
+                    type: "DELETE",
+
+                    cache: false,
+
+                    data: {
+                        "_token": token
+                    },
+
+                    success: function (response) {
+
+                        Swal.fire({
+
+                            icon: 'success',
+                            title: response.message,
+                            showConfirmButton: false,
+                            timer: 2000
+
+                        });
+
+                        loadDataBarang();
+
+                    }
+
+                });
+
+            }
+
+        });
+
+    });
+
+    function previewImageEdit(event) {
+
+        const file = event.target.files[0];
+
+        if (!file) return;
+
+        const preview = document.getElementById('edit_preview');
+
+        preview.src = URL.createObjectURL(file);
+
+        preview.classList.remove('d-none');
+
+        $('#edit_placeholder').hide();
+
+    }
+</script>
+<script>
+
+    function previewImage(event) {
+
+        const file =
+            event.target.files[0];
+
+        if (!file) return;
+
+        const preview =
+            document.getElementById('preview');
+
+        preview.src =
+            URL.createObjectURL(file);
+
+        preview.classList.remove('d-none');
+
+        $('.modern-upload-placeholder').hide();
+
+    }
+
+</script>
+<script>
+    $('.modern-modal-close, #button_tambah_barang').on('click', function () {
+
+        resetModalBarang();
+
+    });
+    $('#modal_tambah_barang').on('hidden.bs.modal', function () {
+
+        resetModalBarang();
+
+    });
+
+    function resetModalBarang() {
+
+        $('#gambar').val('');
+
+        $('#preview')
+            .attr('src', '')
+            .addClass('d-none');
+
+        $('.modern-upload-placeholder').show();
+
+        $('form')[0].reset();
+
+        $('.alert')
+            .removeClass('d-block')
+            .addClass('d-none');
+
+    }
+    $('#modal_edit_barang').on('hidden.bs.modal', function () {
+
+        $('#edit_gambar').val('');
+
+        $('#edit_preview')
+            .attr('src', '')
+            .addClass('d-none');
+
+        $('#edit_placeholder').show();
+
+    });
+
+function setEditImage(url) {
+
+    const preview = $('#edit_preview');
+    const placeholder = $('#edit_placeholder');
+
+    if (url) {
+
+        preview.attr('src', url)
+               .removeClass('d-none');
+
+        placeholder.hide();
+
+    } else {
+
+        preview.attr('src', '')
+               .addClass('d-none');
+
+        placeholder.show();
+
+    }
+
+}
+
+$('#edit_upload_area').on('click', function (e) {
+
+    // pastikan tidak trigger dari input sendiri
+    if ($(e.target).is('input')) return;
+
+    $('#edit_gambar')[0].click();
+
+});
+
+$('#edit_gambar').on('click', function (e) {
+    e.stopPropagation();
+});
+
+let isOpeningFile = false;
+
+$('#edit_upload_area').on('click', function (e) {
+
+    if (isOpeningFile) return;
+
+    isOpeningFile = true;
+
+    $('#edit_gambar')[0].click();
+
+    setTimeout(() => {
+        isOpeningFile = false;
+    }, 500);
+
+});
+</script>
 @endsection
+
+

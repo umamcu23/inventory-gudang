@@ -1,31 +1,68 @@
-<div class="modal fade" tabindex="-1" role="dialog" id="modal_tambah_satuan">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Tambah Satuan Barang</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <form enctype="multipart/form-data">
-          <div class="modal-body">
+<div class="modal fade modern-modal" id="modal_tambah_satuan">
 
-            <div class="form-group">
-                <label>Nama Satuan Barang</label>
-                <input type="text" class="form-control" name="satuan" id="satuan">
-                <div class="alert alert-danger mt-2 d-none" role="alert" id="alert-satuan"></div>
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content modern-modal-content">
+
+            <!-- HEADER -->
+            <div class="modal-header modern-modal-header">
+
+                <div class="d-flex flex-column">
+                    <h5 class="modal-title mb-0">Tambah Satuan Barang</h5>
+                    <small class="text-muted">Tambahkan satuan baru (pcs, box, kg, dll)</small>
+                </div>
+
+                <button type="button"
+                        class="modern-modal-close"
+                        data-dismiss="modal">
+                    <i class="fa fa-times"></i>
+                </button>
+
+            </div>
+
+            <!-- BODY -->
+            <div class="modal-body">
+
+                <label class="modern-label">
+                    Nama Satuan
+                </label>
+
+                <input type="text"
+                       class="form-control modern-input"
+                       id="satuan"
+                       placeholder="Contoh: PCS, BOX, KG">
+
+                <!-- PLACEHOLDER INFO (biar UX enak) -->
+                <small class="text-muted d-block mt-2">
+                    Masukkan satuan barang seperti PCS, BOX, KG, LITER, dll
+                </small>
+
+                <div class="alert alert-danger d-none mt-2"
+                     id="alert-satuan"></div>
+
+            </div>
+
+            <!-- FOOTER -->
+            <div class="modal-footer modern-modal-footer">
+
+                <button type="button"
+                          class="btn btn-light modern-btn"
+                          data-dismiss="modal">
+                          
+                        <i class="fa fa-times mr-2"></i>
+                      Tutup
+                </button>
+                <button type="button"
+                        class="btn modern-btn-primary"
+                        id="store">
+                        <i class="fa fa-save mr-2"></i>
+                    Simpan
+                </button>
+
             </div>
 
         </div>
-        <div class="modal-footer bg-whitesmoke br">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Keluar</button>
-          <button type="button" class="btn btn-primary" id="store">Tambah</button>
-        </div>
-        </form>
-      </div>
+
     </div>
-  </div>
+
 </div>
-
-
-

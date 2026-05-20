@@ -2,60 +2,138 @@
 
 @section('content')
 
-<div class="section-header">
-    <h1>Laporan Barang Keluar</h1>
-    <div class="ml-auto">
-        <a href="javascript:void(0)" class="btn btn-danger" id="print-barang-keluar"><i class="fa fa-sharp fa-light fa-print"></i> Print PDF</a>
-    </div>
-</div>
-
 <div class="row">
     <div class="col-lg-12">
-        <div class="card">
-            <div class="card-body">
-                <div class="form-group">
-                    <form id="filter_form" action="/laporan-barang-keluar/get-data" method="GET">
-                        <div class="row">
-                            <div class="col-md-5">
-                                <label>Pilih Tanggal Mulai :</label>
-                                <input type="date" class="form-control" name="tanggal_mulai" id="tanggal_mulai">
+
+        <div class="modern-table-card">
+
+            <!-- HEADER -->
+            <div class="modern-table-header">
+
+                <div class="modern-table-header-left">
+
+                    <div class="modern-table-icon">
+                        <i class="fa fa-dolly"></i>
+                    </div>
+
+                    <div>
+                        <h5 class="modern-table-title">
+                            Laporan Barang Keluar
+                        </h5>
+
+                        <p class="modern-table-subtitle">
+                            Monitoring data barang keluar berdasarkan periode
+                        </p>
+                    </div>
+
+                </div>
+
+                <div class="modern-table-header-right">
+
+                    <div class="modern-table-chip">
+                        Inventory
+                    </div>
+
+                    <a href="javascript:void(0)"
+                       class="btn modern-btn-danger"
+                       id="print-barang-keluar">
+
+                        <i class="fa fa-print"></i>
+                        <span>Print PDF</span>
+
+                    </a>
+
+                </div>
+
+            </div>
+
+            <!-- FILTER (FULL 1 BARIS) -->
+            <div class="px-3 pt-3">
+
+                <form id="filter_form"
+                      action="/laporan-barang-keluar/get-data"
+                      method="GET">
+
+                    <div class="d-flex align-items-end"
+                         style="width: 100%; gap: 20px;">
+
+                        <!-- INPUT WRAPPER -->
+                        <div class="d-flex" style="flex: 1; gap: 20px;">
+
+                            <div class="d-flex flex-column" style="flex: 1;">
+                                <label class="mb-1">Tanggal Mulai :</label>
+                                <input type="date"
+                                       class="form-control"
+                                       name="tanggal_mulai"
+                                       id="tanggal_mulai">
                             </div>
-                            <div class="col-md-5">
-                                <label>Pilih Tanggal Selesai :</label>
-                                <input type="date" class="form-control" name="tanggal_selesai" id="tanggal_selesai">
+
+                            <div class="d-flex flex-column" style="flex: 1;">
+                                <label class="mb-1">Tanggal Selesai :</label>
+                                <input type="date"
+                                       class="form-control"
+                                       name="tanggal_selesai"
+                                       id="tanggal_selesai">
                             </div>
-                            <div class="col-md-2 d-flex align-items-end">
-                                <button type="submit" class="btn btn-primary">Filter</button>
-                                <button type="button" class="btn btn-danger" id="refresh_btn">Refresh</button>
-                            </div>
+
                         </div>
-                    </form>
-                </div>
+
+                        <!-- BUTTON WRAPPER -->
+                        <div class="d-flex" style="gap: 10px; white-space: nowrap;">
+
+                            <button type="submit"
+                                    class="btn modern-btn-primary">
+
+                                <i class="fa fa-filter"></i>
+                                Filter
+
+                            </button>
+
+                            <button type="button"
+                                    class="btn modern-btn-refresh"
+                                    id="refresh_btn">
+
+                                <i class="fa fa-sync"></i>
+                                Refresh
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </form>
+
             </div>
-        </div>
-        <div class="card">
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table id="table_id" class="display">
-                        <thead>
-                            <tr>
-                                <th>No</th>
-                                <th>Kode Transaksi</th>
-                                <th>Tanggal Keluar</th>
-                                <th>Nama Barang</th>
-                                <th>Jumlah Masuk</th>
-                                <th>Customer</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tabel-laporan-barang-keluar">
-                        </tbody>
-                    </table>
-                </div>
+
+            <!-- TABLE -->
+            <div class="table-responsive modern-table-wrapper mt-3">
+
+                <table id="table_id"
+                       class="table modern-table align-middle mb-0">
+
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Kode Transaksi</th>
+                            <th>Tanggal Keluar</th>
+                            <th>Nama Barang</th>
+                            <th>Jumlah Keluar</th>
+                            <th>Customer</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="tabel-laporan-barang-keluar">
+                    </tbody>
+
+                </table>
+
             </div>
+
         </div>
+
     </div>
 </div>
-
 <!-- Script Get Data -->
 <script>
     $(document).ready(function() {

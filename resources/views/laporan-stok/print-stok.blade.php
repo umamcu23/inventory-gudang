@@ -2,62 +2,132 @@
 <html>
 <head>
     <style>
-        body {
-            font-family: Arial, sans-serif;
+        @page {
+            margin: 20mm;
         }
-        h1, p{
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 12px;
+            color: #333;
+        }
+
+        .report-title {
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            letter-spacing: 0.5px;
+        }
+
+        .report-subtitle {
+            text-align: center;
+            font-size: 12px;
+            margin-bottom: 10px;
+            color: #666;
+        }
+
+        .report-info {
             text-align: center;
             margin-bottom: 20px;
+            font-size: 13px;
+            font-weight: bold;
         }
+
         table {
             width: 100%;
             border-collapse: collapse;
+            margin-top: 10px;
         }
-        th, td {
-            text-align: center;
+
+        thead th {
+            background: #1f2937;
+            color: white;
+            padding: 10px;
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+
+        tbody td {
             padding: 8px;
-            border-bottom: 1px solid #ddd;
+            border-bottom: 1px solid #e5e7eb;
+            text-align: center;
         }
-        th {
-            background-color: #f2f2f2;
-            font-weight: bold;
+
+        tbody tr:nth-child(even) {
+            background-color: #f9fafb;
         }
+
         .footer {
             position: fixed;
-            bottom: 20px;
+            bottom: 15px;
+            left: 20px;
             right: 20px;
-            font-size: 12px;
+            font-size: 11px;
+            color: #666;
+            border-top: 1px solid #e5e7eb;
+            padding-top: 8px;
+            display: flex;
+            justify-content: space-between;
         }
+
+        .footer strong {
+            color: #111;
+        }
+
     </style>
 </head>
-<body>
-    <h1>Laporan Stok</h1>
-    <p>Keterangan : {{ $selectedOption }}</p>
 
+<body>
+
+    <!-- TITLE -->
+    <div class="report-title">
+        LAPORAN STOK BARANG
+    </div>
+
+    <div class="report-subtitle">
+        Sistem Inventory Management
+    </div>
+
+    <!-- INFO -->
+    <div class="report-info">
+        Keterangan: {{ $selectedOption }}
+    </div>
+
+    <!-- TABLE -->
     <table>
         <thead>
             <tr>
-                <th>No</th>
+                <th style="width: 5%;">No</th>
                 <th>Kode Barang</th>
                 <th>Nama Barang</th>
                 <th>Stok</th>
             </tr>
         </thead>
+
         <tbody>
             @foreach($barangs as $index => $barang)
             <tr>
                 <td>{{ $index + 1 }}</td>
                 <td>{{ $barang->kode_barang }}</td>
                 <td>{{ $barang->nama_barang }}</td>
-                <td>{{ $barang->stok}}  {{ $barang->satuan->satuan }}</td>
+                <td>
+                    {{ $barang->stok }} {{ $barang->satuan->satuan ?? '-' }}
+                </td>
             </tr>
             @endforeach
         </tbody>
     </table>
 
+    <!-- FOOTER -->
     <div class="footer">
-        Dicetak oleh: {{ auth()->user()->name }}<br>
-        Tanggal: {{ date('d-m-Y') }}
+        <div>
+            Dicetak oleh: <strong>{{ auth()->user()->name }}</strong>
+        </div>
+        <div>
+            Tanggal Cetak: <strong>{{ date('d-m-Y') }}</strong>
+        </div>
     </div>
+
 </body>
 </html>

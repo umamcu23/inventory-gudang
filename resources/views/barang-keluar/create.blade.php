@@ -1,89 +1,171 @@
-<div class="modal fade" role="dialog" id="modal_tambah_barangKeluar">
-    <div class="modal-dialog modal-lg" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Tambah Barang Keluar</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <form enctype="multipart/form-data">
-          <div class="modal-body">
+<div class="modal fade modern-modal"
+     tabindex="-1"
+     role="dialog"
+     id="modal_tambah_barangKeluar">
 
-            <div class="row">
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label>Tanggal Keluar</label>
-                  <input type="text" class="form-control" name="tanggal_keluar" id="tanggal_keluar">
-                  <div class="alert alert-danger mt-2 d-none" role="alert" id="alert-tanggal_keluar"></div>
-                </div>
-    
-                <div class="form-group">
-                  <label>Kode Transaksi</label>
-                  <input type="text" class="form-control" name="kode_transaksi" id="kode_transaksi" readonly>
-                  <div class="alert alert-danger mt-2 d-none" role="alert" id="alert-kode_transaksi"></div>
-                </div>
-    
-                <div class="form-group">
-                  <label>Stok Saat Ini</label>
-                  <input type="number" class="form-control" name="stok" id="stok" disabled>
-                  <div class="alert alert-danger mt-2 d-none" role="alert" id="alert-stok"></div>
-                </div>
-                
-              </div>
+    <div class="modal-dialog modal-lg modal-dialog-centered"
+         role="document">
 
-              <div class="col-md-6">
+        <div class="modal-content modern-modal-content">
 
-                <div class="form-group">
-                  <label>Pilih Barang</label>
-                    <select class="js-example-basic-single" name="nama_barang" id="nama_barang" style="width: 100%">
-                      <option selected>Pilih Barang</option>
-                      @foreach ($barangs as $barang)
-                        <option value="{{ $barang->nama_barang }}">{{ $barang->nama_barang }}</option>
-                      @endforeach
-                    </select>
-                    <div class="alert alert-danger mt-2 d-none" role="alert" id="alert-nama_barang"></div>
+            <!-- HEADER -->
+            <div class="modal-header modern-modal-header">
+
+                <div class="d-flex flex-column">
+                    <h5 class="modal-title mb-0">Tambah Barang Keluar</h5>
+                    <small class="text-muted">Input data barang keluar</small>
                 </div>
 
-                <div class="form-group">
-                  <label>Customer</label>
-                  <select class="form-control" name="customer_id" id="customer_id">
-                    @foreach ($customers as $customer)
-                        @if (old('customer_id') == $customer->id)
-                          <option value="{{ $customer->id }}" selected>{{ $customer->customer}}</option>
-                        @else
-                          <option value="{{ $customer->id }}">{{ $customer->customer}}</option>
-                        @endif
-                    @endforeach
-                  </select>
-                  <div class="alert alert-danger mt-2 d-none" role="alert" id="alert-customer_id"></div>
-                </div>
-  
-                <div class="form-group">
-                  <label>Jumlah Keluar</label>
-                  <div class="input-group">
-                    <input type="number" class="form-control" name="jumlah_keluar" id="jumlah_keluar" min="0" style="width: 75%;">
-                    <div class="input-group-append" style="width: 25%;">
-                      <input type="text" class="form-control" name="satuan" id="satuan_id" disabled>
+                <button type="button"
+                        class="modern-modal-close"
+                        data-dismiss="modal"
+                        aria-label="Close">
+                    <i class="fa fa-times"></i>
+                </button>
+
+            </div>
+
+            <form enctype="multipart/form-data">
+
+                <div class="modal-body">
+
+                    <div class="row">
+
+                        <!-- LEFT -->
+                        <div class="col-md-6">
+
+                            <label class="modern-label">Tanggal Keluar</label>
+                            <input type="date"
+                                   class="form-control modern-input"
+                                   name="tanggal_keluar"
+                                   id="tanggal_keluar"
+                                   placeholder="Pilih tanggal keluar">
+
+                            <div class="alert alert-danger mt-2 d-none"
+                                 id="alert-tanggal_keluar"></div>
+
+
+                            <label class="modern-label mt-3">Kode Transaksi</label>
+                            <input type="text"
+                                   class="form-control modern-input"
+                                   name="kode_transaksi"
+                                   id="kode_transaksi"
+                                   readonly
+                                   placeholder="Auto generate kode">
+
+                            <div class="alert alert-danger mt-2 d-none"
+                                 id="alert-kode_transaksi"></div>
+
+
+                            <label class="modern-label mt-3">Stok Saat Ini</label>
+                            <input type="number"
+                                   class="form-control modern-input"
+                                   name="stok"
+                                   id="stok"
+                                   disabled
+                                   placeholder="Stok barang">
+
+                            <div class="alert alert-danger mt-2 d-none"
+                                 id="alert-stok"></div>
+
+                        </div>
+
+                        <!-- RIGHT -->
+                        <div class="col-md-6">
+
+                            <label class="modern-label">Pilih Barang</label>
+                            <select class="form-control modern-input js-example-basic-single"
+                                    name="nama_barang"
+                                    id="nama_barang"
+                                    style="width:100%">
+
+                                <option value="">Pilih Barang</option>
+
+                                @foreach ($barangs as $barang)
+                                    <option value="{{ $barang->nama_barang }}">
+                                        {{ $barang->nama_barang }}
+                                    </option>
+                                @endforeach
+
+                            </select>
+
+                            <div class="alert alert-danger mt-2 d-none"
+                                 id="alert-nama_barang"></div>
+
+
+                            <label class="modern-label mt-3">Customer</label>
+                            <select class="form-control modern-input"
+                                    name="customer_id"
+                                    id="customer_id">
+
+                                <option value="">Pilih Customer</option>
+
+                                @foreach ($customers as $customer)
+                                    <option value="{{ $customer->id }}">
+                                        {{ $customer->customer }}
+                                    </option>
+                                @endforeach
+
+                            </select>
+
+                            <div class="alert alert-danger mt-2 d-none"
+                                 id="alert-customer_id"></div>
+
+
+                            <label class="modern-label mt-3">Jumlah Keluar</label>
+                            <div class="input-group">
+
+                                <input type="number"
+                                       class="form-control modern-input"
+                                       name="jumlah_keluar"
+                                       id="jumlah_keluar"
+                                       min="0"
+                                       placeholder="Jumlah barang">
+
+                                <input type="text"
+                                       class="form-control modern-input"
+                                       id="satuan_id"
+                                       disabled
+                                       placeholder="Satuan">
+
+                            </div>
+
+                            <div class="alert alert-danger mt-2 d-none"
+                                 id="alert-jumlah_keluar"></div>
+
+                        </div>
+
                     </div>
-                    <div class="alert alert-danger mt-2 d-none" role="alert" id="alert-jumlah_keluar"></div>
-                  </div>
+
                 </div>
-                
-              </div>
-            </div>            
-          </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Keluar</button>
-          <button type="button" class="btn btn-primary" id="store">Tambah</button>
+
+                <!-- FOOTER -->
+                <div class="modal-footer modern-modal-footer">
+
+                    <button type="button"
+                            class="btn btn-light modern-btn"
+                            data-dismiss="modal">
+
+                        <i class="fa fa-times"></i>
+                        Tutup
+
+                    </button>
+
+                    <button type="button"
+                            class="btn btn-primary modern-btn-primary"
+                            id="store">
+
+                        <i class="fa fa-save"></i>
+                        Simpan Data
+
+                    </button>
+
+                </div>
+
+            </form>
+
         </div>
-        </form>
-      </div>
+
     </div>
-  </div>
+
 </div>
-
-
-
-
-
