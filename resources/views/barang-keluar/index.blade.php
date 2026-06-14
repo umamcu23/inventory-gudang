@@ -110,7 +110,9 @@
 
                 function getSatuanName(satuanId, callback) {
                     $.getJSON("{{ url('api/satuan') }}", function (data) {
-                        let satuan = data.find(s => s.id === satuanId);
+                        let satuan = data.find(
+                            s => Number(s.id) === Number(satuanId)
+                        );
                         callback(satuan ? satuan.satuan : '');
                     });
                 }
