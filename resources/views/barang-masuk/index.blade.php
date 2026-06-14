@@ -195,13 +195,16 @@ $(document).ready(function () {
                     console.log('nama_barang'+nama_barang);
                     
                     $('#stok').val(response.stok ?? 0);
-
+                    console.log(response);
+                    
                     if (response.satuan_id) {
-
+                        console.log('satuan_id'+response.satuan_id);
+                        
                         $.getJSON('/api/satuan', function (satuans) {
 
                             let satuan = satuans.find(s => s.id === response.satuan_id);
-
+                            console.log('json'+satuan);
+                            
                             $('#satuan_id').val(satuan ? satuan.satuan : '');
                         });
                     }
