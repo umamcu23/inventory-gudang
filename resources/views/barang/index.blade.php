@@ -334,8 +334,7 @@
         }
 
         preview.removeAttribute('src');
-
-        preview.style.display = 'none';
+        preview.classList.add('d-none');
 
         /* Show Placeholder */
 
@@ -717,16 +716,15 @@
 
     function previewImage(event) {
 
-        const file =
-            event.target.files[0];
+        const file = event.target.files[0];
 
         if (!file) return;
 
-        const preview =
-            document.getElementById('preview');
+        const preview = document.getElementById('preview');
 
-        preview.src =
-            URL.createObjectURL(file);
+        preview.src = URL.createObjectURL(file);
+
+        preview.style.display = 'block';
 
         preview.classList.remove('d-none');
 
