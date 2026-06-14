@@ -192,20 +192,16 @@ $(document).ready(function () {
 
                 success: function (response) {
 
-                    console.log('nama_barang'+nama_barang);
-                    
                     $('#stok').val(response.stok ?? 0);
-                    console.log(response);
-                    
+
                     if (response.satuan_id) {
-                        console.log('satuan_id'+response.satuan_id);
-                        
+
                         $.getJSON('/api/satuan', function (satuans) {
-                            console.log('satuans'+satuans);
-                            
-                            let satuan = satuans.find(s => s.id === response.satuan_id);
-                            console.log('json'+satuan);
-                            
+
+                            let satuan = satuans.find(
+                                s => Number(s.id) === Number(response.satuan_id)
+                            );
+
                             $('#satuan_id').val(satuan ? satuan.satuan : '');
                         });
                     }
