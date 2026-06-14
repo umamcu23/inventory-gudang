@@ -201,7 +201,8 @@ $(document).ready(function () {
                         console.log('satuan_id'+response.satuan_id);
                         
                         $.getJSON('/api/satuan', function (satuans) {
-
+                            console.log('satuans'+satuans);
+                            
                             let satuan = satuans.find(s => s.id === response.satuan_id);
                             console.log('json'+satuan);
                             
