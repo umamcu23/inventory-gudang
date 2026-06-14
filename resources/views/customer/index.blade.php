@@ -145,8 +145,6 @@
 
             e.preventDefault();
 
-            clearCustomerForm();
-
             let customer = $('#customer').val();
             let alamat   = $('#alamat').val();
 
