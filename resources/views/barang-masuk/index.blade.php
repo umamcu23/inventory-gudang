@@ -192,6 +192,8 @@ $(document).ready(function () {
 
                 success: function (response) {
 
+                    console.log('nama_barang'+nama_barang);
+                    
                     $('#stok').val(response.stok ?? 0);
 
                     if (response.satuan_id) {
