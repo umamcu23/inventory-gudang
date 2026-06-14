@@ -1,0 +1,107 @@
+[20-May-2026 14:51:28 UTC] PHP Warning:  require(/home/eccofasi/skpindonesia.com/../../repositories/inventory-gudang/vendor/autoload.php): failed to open stream: No such file or directory in /home/eccofasi/skpindonesia.com/index.php on line 35
+[20-May-2026 14:51:28 UTC] PHP Fatal error:  require(): Failed opening required '/home/eccofasi/skpindonesia.com/../../repositories/inventory-gudang/vendor/autoload.php' (include_path='.:/opt/cpanel/ea-php74/root/usr/share/pear') in /home/eccofasi/skpindonesia.com/index.php on line 35
+[20-May-2026 14:51:32 UTC] PHP Warning:  require(/home/eccofasi/skpindonesia.com/../../repositories/inventory-gudang/vendor/autoload.php): failed to open stream: No such file or directory in /home/eccofasi/skpindonesia.com/index.php on line 35
+[20-May-2026 14:51:32 UTC] PHP Fatal error:  require(): Failed opening required '/home/eccofasi/skpindonesia.com/../../repositories/inventory-gudang/vendor/autoload.php' (include_path='.:/opt/cpanel/ea-php74/root/usr/share/pear') in /home/eccofasi/skpindonesia.com/index.php on line 35
+[20-May-2026 14:51:34 UTC] PHP Warning:  require(/home/eccofasi/skpindonesia.com/../../repositories/inventory-gudang/vendor/autoload.php): failed to open stream: No such file or directory in /home/eccofasi/skpindonesia.com/index.php on line 35
+[20-May-2026 14:51:34 UTC] PHP Fatal error:  require(): Failed opening required '/home/eccofasi/skpindonesia.com/../../repositories/inventory-gudang/vendor/autoload.php' (include_path='.:/opt/cpanel/ea-php74/root/usr/share/pear') in /home/eccofasi/skpindonesia.com/index.php on line 35
+[20-May-2026 14:52:13 UTC] PHP Fatal error:  Uncaught RuntimeException: Composer detected issues in your platform: Your Composer dependencies require a PHP version ">= 8.2.0". You are running 7.4.33. in /home/eccofasi/repositories/inventory-gudang/vendor/composer/platform_check.php:22
+Stack trace:
+#0 /home/eccofasi/repositories/inventory-gudang/vendor/composer/autoload_real.php(25): require()
+#1 /home/eccofasi/repositories/inventory-gudang/vendor/autoload.php(22): ComposerAutoloaderInit7df744e4272af0b1adfe8721d0fb32c5::getLoader()
+#2 /home/eccofasi/skpindonesia.com/index.php(35): require('/home/eccofasi/...')
+#3 {main}
+  thrown in /home/eccofasi/repositories/inventory-gudang/vendor/composer/platform_check.php on line 22
+[20-May-2026 14:52:15 UTC] PHP Fatal error:  Uncaught RuntimeException: Composer detected issues in your platform: Your Composer dependencies require a PHP version ">= 8.2.0". You are running 7.4.33. in /home/eccofasi/repositories/inventory-gudang/vendor/composer/platform_check.php:22
+Stack trace:
+#0 /home/eccofasi/repositories/inventory-gudang/vendor/composer/autoload_real.php(25): require()
+#1 /home/eccofasi/repositories/inventory-gudang/vendor/autoload.php(22): ComposerAutoloaderInit7df744e4272af0b1adfe8721d0fb32c5::getLoader()
+#2 /home/eccofasi/skpindonesia.com/index.php(35): require('/home/eccofasi/...')
+#3 {main}
+  thrown in /home/eccofasi/repositories/inventory-gudang/vendor/composer/platform_check.php on line 22
+[20-May-2026 14:57:14 UTC] PHP Fatal error:  Uncaught RuntimeException: Composer detected issues in your platform: Your Composer dependencies require a PHP version ">= 8.2.0". You are running 7.4.33. in /home/eccofasi/repositories/inventory-gudang/vendor/composer/platform_check.php:22
+Stack trace:
+#0 /home/eccofasi/repositories/inventory-gudang/vendor/composer/autoload_real.php(25): require()
+#1 /home/eccofasi/repositories/inventory-gudang/vendor/autoload.php(22): ComposerAutoloaderInit7df744e4272af0b1adfe8721d0fb32c5::getLoader()
+#2 /home/eccofasi/skpindonesia.com/index.php(35): require('/home/eccofasi/...')
+#3 {main}
+  thrown in /home/eccofasi/repositories/inventory-gudang/vendor/composer/platform_check.php on line 22
+[20-May-2026 15:00:05 UTC] PHP Fatal error:  Uncaught RuntimeException: Composer detected issues in your platform: Your Composer dependencies require a PHP version ">= 8.2.0". You are running 7.4.33. in /home/eccofasi/repositories/inventory-gudang/vendor/composer/platform_check.php:22
+Stack trace:
+#0 /home/eccofasi/repositories/inventory-gudang/vendor/composer/autoload_real.php(25): require()
+#1 /home/eccofasi/repositories/inventory-gudang/vendor/autoload.php(22): ComposerAutoloaderInit7df744e4272af0b1adfe8721d0fb32c5::getLoader()
+#2 /home/eccofasi/skpindonesia.com/index.php(35): require('/home/eccofasi/...')
+#3 {main}
+  thrown in /home/eccofasi/repositories/inventory-gudang/vendor/composer/platform_check.php on line 22
+[20-May-2026 15:00:08 UTC] PHP Fatal error:  Uncaught RuntimeException: Composer detected issues in your platform: Your Composer dependencies require a PHP version ">= 8.2.0". You are running 7.4.33. in /home/eccofasi/repositories/inventory-gudang/vendor/composer/platform_check.php:22
+Stack trace:
+#0 /home/eccofasi/repositories/inventory-gudang/vendor/composer/autoload_real.php(25): require()
+#1 /home/eccofasi/repositories/inventory-gudang/vendor/autoload.php(22): ComposerAutoloaderInit7df744e4272af0b1adfe8721d0fb32c5::getLoader()
+#2 /home/eccofasi/skpindonesia.com/index.php(35): require('/home/eccofasi/...')
+#3 {main}
+  thrown in /home/eccofasi/repositories/inventory-gudang/vendor/composer/platform_check.php on line 22
+[20-May-2026 15:01:15 UTC] PHP Fatal error:  Uncaught RuntimeException: Composer detected issues in your platform: Your Composer dependencies require a PHP version ">= 8.2.0". You are running 7.4.33. in /home/eccofasi/repositories/inventory-gudang/vendor/composer/platform_check.php:22
+Stack trace:
+#0 /home/eccofasi/repositories/inventory-gudang/vendor/composer/autoload_real.php(25): require()
+#1 /home/eccofasi/repositories/inventory-gudang/vendor/autoload.php(22): ComposerAutoloaderInit7df744e4272af0b1adfe8721d0fb32c5::getLoader()
+#2 /home/eccofasi/skpindonesia.com/index.php(35): require('/home/eccofasi/...')
+#3 {main}
+  thrown in /home/eccofasi/repositories/inventory-gudang/vendor/composer/platform_check.php on line 22
+[20-May-2026 15:01:59 UTC] PHP Fatal error:  Uncaught RuntimeException: Composer detected issues in your platform: Your Composer dependencies require a PHP version ">= 8.2.0". You are running 7.4.33. in /home/eccofasi/repositories/inventory-gudang/vendor/composer/platform_check.php:22
+Stack trace:
+#0 /home/eccofasi/repositories/inventory-gudang/vendor/composer/autoload_real.php(25): require()
+#1 /home/eccofasi/repositories/inventory-gudang/vendor/autoload.php(22): ComposerAutoloaderInit7df744e4272af0b1adfe8721d0fb32c5::getLoader()
+#2 /home/eccofasi/skpindonesia.com/index.php(35): require('/home/eccofasi/...')
+#3 {main}
+  thrown in /home/eccofasi/repositories/inventory-gudang/vendor/composer/platform_check.php on line 22
+[20-May-2026 15:02:00 UTC] PHP Fatal error:  Uncaught RuntimeException: Composer detected issues in your platform: Your Composer dependencies require a PHP version ">= 8.2.0". You are running 7.4.33. in /home/eccofasi/repositories/inventory-gudang/vendor/composer/platform_check.php:22
+Stack trace:
+#0 /home/eccofasi/repositories/inventory-gudang/vendor/composer/autoload_real.php(25): require()
+#1 /home/eccofasi/repositories/inventory-gudang/vendor/autoload.php(22): ComposerAutoloaderInit7df744e4272af0b1adfe8721d0fb32c5::getLoader()
+#2 /home/eccofasi/skpindonesia.com/index.php(35): require('/home/eccofasi/...')
+#3 {main}
+  thrown in /home/eccofasi/repositories/inventory-gudang/vendor/composer/platform_check.php on line 22
+[20-May-2026 15:02:01 UTC] PHP Fatal error:  Uncaught RuntimeException: Composer detected issues in your platform: Your Composer dependencies require a PHP version ">= 8.2.0". You are running 7.4.33. in /home/eccofasi/repositories/inventory-gudang/vendor/composer/platform_check.php:22
+Stack trace:
+#0 /home/eccofasi/repositories/inventory-gudang/vendor/composer/autoload_real.php(25): require()
+#1 /home/eccofasi/repositories/inventory-gudang/vendor/autoload.php(22): ComposerAutoloaderInit7df744e4272af0b1adfe8721d0fb32c5::getLoader()
+#2 /home/eccofasi/skpindonesia.com/index.php(35): require('/home/eccofasi/...')
+#3 {main}
+  thrown in /home/eccofasi/repositories/inventory-gudang/vendor/composer/platform_check.php on line 22
+[20-May-2026 15:02:02 UTC] PHP Fatal error:  Uncaught RuntimeException: Composer detected issues in your platform: Your Composer dependencies require a PHP version ">= 8.2.0". You are running 7.4.33. in /home/eccofasi/repositories/inventory-gudang/vendor/composer/platform_check.php:22
+Stack trace:
+#0 /home/eccofasi/repositories/inventory-gudang/vendor/composer/autoload_real.php(25): require()
+#1 /home/eccofasi/repositories/inventory-gudang/vendor/autoload.php(22): ComposerAutoloaderInit7df744e4272af0b1adfe8721d0fb32c5::getLoader()
+#2 /home/eccofasi/skpindonesia.com/index.php(35): require('/home/eccofasi/...')
+#3 {main}
+  thrown in /home/eccofasi/repositories/inventory-gudang/vendor/composer/platform_check.php on line 22
+[20-May-2026 15:03:07 UTC] PHP Fatal error:  Uncaught RuntimeException: Composer detected issues in your platform: Your Composer dependencies require a PHP version ">= 8.2.0". You are running 7.4.33. in /home/eccofasi/repositories/inventory-gudang/vendor/composer/platform_check.php:22
+Stack trace:
+#0 /home/eccofasi/repositories/inventory-gudang/vendor/composer/autoload_real.php(25): require()
+#1 /home/eccofasi/repositories/inventory-gudang/vendor/autoload.php(22): ComposerAutoloaderInit7df744e4272af0b1adfe8721d0fb32c5::getLoader()
+#2 /home/eccofasi/skpindonesia.com/index.php(35): require('/home/eccofasi/...')
+#3 {main}
+  thrown in /home/eccofasi/repositories/inventory-gudang/vendor/composer/platform_check.php on line 22
+[20-May-2026 15:03:10 UTC] PHP Fatal error:  Uncaught RuntimeException: Composer detected issues in your platform: Your Composer dependencies require a PHP version ">= 8.2.0". You are running 7.4.33. in /home/eccofasi/repositories/inventory-gudang/vendor/composer/platform_check.php:22
+Stack trace:
+#0 /home/eccofasi/repositories/inventory-gudang/vendor/composer/autoload_real.php(25): require()
+#1 /home/eccofasi/repositories/inventory-gudang/vendor/autoload.php(22): ComposerAutoloaderInit7df744e4272af0b1adfe8721d0fb32c5::getLoader()
+#2 /home/eccofasi/skpindonesia.com/index.php(35): require('/home/eccofasi/...')
+#3 {main}
+  thrown in /home/eccofasi/repositories/inventory-gudang/vendor/composer/platform_check.php on line 22
+[20-May-2026 15:03:12 UTC] PHP Fatal error:  Uncaught RuntimeException: Composer detected issues in your platform: Your Composer dependencies require a PHP version ">= 8.2.0". You are running 7.4.33. in /home/eccofasi/repositories/inventory-gudang/vendor/composer/platform_check.php:22
+Stack trace:
+#0 /home/eccofasi/repositories/inventory-gudang/vendor/composer/autoload_real.php(25): require()
+#1 /home/eccofasi/repositories/inventory-gudang/vendor/autoload.php(22): ComposerAutoloaderInit7df744e4272af0b1adfe8721d0fb32c5::getLoader()
+#2 /home/eccofasi/skpindonesia.com/index.php(35): require('/home/eccofasi/...')
+#3 {main}
+  thrown in /home/eccofasi/repositories/inventory-gudang/vendor/composer/platform_check.php on line 22
+[20-May-2026 15:42:06 UTC] PHP Warning:  require(/home/eccofasi/skpindonesia.com/public/../repositories/inventory-gudang/vendor/autoload.php): Failed to open stream: No such file or directory in /home/eccofasi/skpindonesia.com/public/index.php on line 35
+[20-May-2026 15:42:06 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/eccofasi/skpindonesia.com/public/../repositories/inventory-gudang/vendor/autoload.php' (include_path='.:/opt/cpanel/ea-php82/root/usr/share/pear') in /home/eccofasi/skpindonesia.com/public/index.php:35
+Stack trace:
+#0 {main}
+  thrown in /home/eccofasi/skpindonesia.com/public/index.php on line 35
+[20-May-2026 15:42:53 UTC] PHP Warning:  require(/home/eccofasi/skpindonesia.com/public/../repositories/inventory-gudang/vendor/autoload.php): Failed to open stream: No such file or directory in /home/eccofasi/skpindonesia.com/public/index.php on line 35
+[20-May-2026 15:42:53 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/eccofasi/skpindonesia.com/public/../repositories/inventory-gudang/vendor/autoload.php' (include_path='.:/opt/cpanel/ea-php82/root/usr/share/pear') in /home/eccofasi/skpindonesia.com/public/index.php:35
+Stack trace:
+#0 {main}
+  thrown in /home/eccofasi/skpindonesia.com/public/index.php on line 35
