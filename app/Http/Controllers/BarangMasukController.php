@@ -144,7 +144,7 @@ class BarangMasukController extends Controller
      */
     public function getAutoCompleteData(Request $request)
     {
-        $barang = Barang::where('nama_barang', $request->nama_barang)->first();;
+        $barang = Barang::where('nama_barang', $request->nama_barang)->first();
         if($barang){
             return response()->json([
                 'nama_barang'   => $barang->nama_barang,
