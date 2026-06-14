@@ -66,7 +66,7 @@
     <div class="text-center mb-5">
 
         <h2 class="text-3xl font-extrabold text-gray-800">
-            Login
+            Form Login
         </h2>
 
         <div class="w-16 h-1 bg-indigo-600 mx-auto rounded-full mt-3"></div>
