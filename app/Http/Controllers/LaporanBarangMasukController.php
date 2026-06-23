@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Http\Controllers;
-
 use Dompdf\Dompdf;
 use App\Models\Supplier;
 use App\Models\BarangMasuk;
@@ -44,7 +42,7 @@ class LaporanBarangMasukController extends Controller
     /**
      * Print DomPDF
      */
-    public function printBarangMasuk(Request $request)
+    public function printBarangMasuk_old(Request $request)
     {
         $tanggalMulai = $request->input('tanggal_mulai');
         $tanggalSelesai = $request->input('tanggal_selesai');
@@ -68,6 +66,49 @@ class LaporanBarangMasukController extends Controller
         $dompdf->setPaper('A4', 'landscape');
         $dompdf->render();
         $dompdf->stream('print-barang-masuk.pdf', ['Attachment' => false]);
+    }
+
+    public function printBarangMasuk(Request $request)
+    {
+        $tanggalMulai = $request->input('tanggal_mulai');
+        $tanggalSelesai = $request->input('tanggal_selesai');
+
+        $barangMasuk = BarangMasuk::query();
+
+        if ($tanggalMulai && $tanggalSelesai) {
+            $barangMasuk->whereBetween('tanggal_masuk', [$tanggalMulai, $tanggalSelesai]);
+        }
+
+        $data = ($tanggalMulai && $tanggalSelesai)
+            ? $barangMasuk->get()
+            : BarangMasuk::all();
+
+        $dompdf = new Dompdf();
+
+        $html = view(
+            'laporan-barang-masuk.print-barang-masuk',
+            compact('data', 'tanggalMulai', 'tanggalSelesai')
+        )->render();
+
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'landscape');
+        $dompdf->render();
+
+        // Bersihkan output buffer
+        while (ob_get_level()) {
+            ob_end_clean();
+        }
+
+        return response(
+            $dompdf->output(),
+            200,
+            [
+                'Content-Type' => 'application/pdf',
+                'Content-Disposition' => 'inline; filename="print-barang-masuk.pdf"',
+                'Cache-Control' => 'private, max-age=0, must-revalidate',
+                'Pragma' => 'public'
+            ]
+        );
     }
     
     /**
