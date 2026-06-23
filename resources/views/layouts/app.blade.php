@@ -98,7 +98,7 @@
     <ul class="navbar-nav navbar-right align-items-center">
 
       <!-- NOTIFICATION -->
-      <li class="dropdown dropdown-list-toggle mr-3">
+      <li class="dropdown dropdown-list-toggle mr-3" style="display:none;">
 
         <a href="#"
            class="nav-link nav-link-lg message-toggle modern-notif">
