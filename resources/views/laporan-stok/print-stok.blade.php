@@ -123,31 +123,6 @@
         tbody tr:nth-child(even) {
             background: #f9fafb;
         }
-
-
-        /* =========================
-           FOOTER
-        ========================= */
-
-        .footer {
-            position: fixed;
-            bottom: 10px;
-            left: 0;
-            right: 0;
-            border-top: 1px solid #d1d5db;
-            padding-top: 6px;
-            font-size: 11px;
-            color: #666;
-        }
-
-        .footer-left {
-            float: left;
-        }
-
-        .footer-right {
-            float: right;
-        }
-
     </style>
 </head>
 
@@ -216,7 +191,7 @@
         </thead>
 
         <tbody>
-            @foreach($barangs as $index => $barang)
+            @forelse($barangs as $index => $barang)
             <tr>
                 <td>{{ $index + 1 }}</td>
                 <td>{{ $barang->kode_barang }}</td>
@@ -225,25 +200,12 @@
                     {{ $barang->stok }} {{ $barang->satuan->satuan ?? '-' }}
                 </td>
             </tr>
-            @endforeach
+            @empty
+            <tr>
+                <td colspan="4">Belum Ada Stok</td>
+            </tr>
+            @endforelse
         </tbody>
     </table>
-
-    <!-- =========================
-         FOOTER
-    ========================= -->
-
-    <div class="footer">
-        <div class="footer-left">
-            Dicetak oleh :
-            <strong>{{ auth()->user()->name }}</strong>
-        </div>
-
-        <div class="footer-right">
-            Tanggal Cetak :
-            <strong>{{ date('d-m-Y H:i') }}</strong>
-        </div>
-    </div>
-
 </body>
 </html>

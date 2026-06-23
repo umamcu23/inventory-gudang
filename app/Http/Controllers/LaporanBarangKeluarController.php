@@ -48,26 +48,73 @@ class LaporanBarangKeluarController extends Controller
     {
         $tanggalMulai = $request->input('tanggal_mulai');
         $tanggalSelesai = $request->input('tanggal_selesai');
-    
+
         $barangKeluar = BarangKeluar::query();
-    
+
         if ($tanggalMulai && $tanggalSelesai) {
             $barangKeluar->whereBetween('tanggal_keluar', [$tanggalMulai, $tanggalSelesai]);
         }
-    
-        if ($tanggalMulai !== null && $tanggalSelesai !== null) {
-            $data = $barangKeluar->get();
-        } else {
-            $data = BarangKeluar::all();
-        }
-        
-        //Generate PDF
+
+        $data = ($tanggalMulai && $tanggalSelesai)
+            ? $barangKeluar->get()
+            : BarangKeluar::all();
+
         $dompdf = new Dompdf();
-        $html = view('/laporan-barang-keluar/print-barang-keluar', compact('data', 'tanggalMulai', 'tanggalSelesai'))->render();
+
+        $html = view(
+            'laporan-barang-keluar.print-barang-keluar',
+            compact('data', 'tanggalMulai', 'tanggalSelesai')
+        )->render();
+
         $dompdf->loadHtml($html);
         $dompdf->setPaper('A4', 'landscape');
         $dompdf->render();
-        $dompdf->stream('print-barang-keluar.pdf', ['Attachment' => false]);
+
+        $canvas = $dompdf->getCanvas();
+        $fontMetrics = $dompdf->getFontMetrics();
+
+        $font = $fontMetrics->getFont('Helvetica', 'normal');
+        $fontBold = $fontMetrics->getFont('Helvetica', 'bold');
+
+        $canvas->page_text(
+            30,
+            580,
+            'Dicetak oleh : ' . auth()->user()->name,
+            $font,
+            8
+        );
+
+        $canvas->page_text(
+            650,
+            580,
+            'Tanggal Cetak : ' . date('d-m-Y H:i'),
+            $font,
+            8
+        );
+
+        $canvas->page_text(
+            370,
+            580,
+            'Halaman {PAGE_NUM} / {PAGE_COUNT}',
+            $fontBold,
+            8
+        );
+
+        // Bersihkan output buffer
+        while (ob_get_level()) {
+            ob_end_clean();
+        }
+
+        return response(
+            $dompdf->output(),
+            200,
+            [
+                'Content-Type' => 'application/pdf',
+                'Content-Disposition' => 'inline; filename="print-barang-keluar.pdf"',
+                'Cache-Control' => 'private, max-age=0, must-revalidate',
+                'Pragma' => 'public',
+            ]
+        );
     }
 
     /**

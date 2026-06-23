@@ -61,6 +61,37 @@ class LaporanStokController extends Controller
         $dompdf->loadHtml($html);
         $dompdf->setPaper('A4', 'landscape');
         $dompdf->render();
+
+        $canvas = $dompdf->getCanvas();
+        $fontMetrics = $dompdf->getFontMetrics();
+
+        $font = $fontMetrics->getFont('Helvetica', 'normal');
+        $fontBold = $fontMetrics->getFont('Helvetica', 'bold');
+
+        $canvas->page_text(
+            30,
+            580,
+            'Dicetak oleh : ' . auth()->user()->name,
+            $font,
+            8
+        );
+
+        $canvas->page_text(
+            650,
+            580,
+            'Tanggal Cetak : ' . date('d-m-Y H:i'),
+            $font,
+            8
+        );
+
+        $canvas->page_text(
+            370,
+            580,
+            'Halaman {PAGE_NUM} / {PAGE_COUNT}',
+            $fontBold,
+            8
+        );
+
         $dompdf->stream('print-stok.pdf', ['Attachment' => false]);
     }
 
