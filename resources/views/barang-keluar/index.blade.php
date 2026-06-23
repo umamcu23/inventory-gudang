@@ -128,7 +128,7 @@
     DATATABLE INIT
     ========================================================= */
     function getCustomerName(customers, customerId) {
-        let customer = customers.find(c => c.id === customerId);
+        let customer = customers.find(c => Number(c.id) === Number(customerId));
         return customer ? customer.customer : '';
     }
 
@@ -147,7 +147,7 @@
 
                 $.each(response.data, function (key, value) {
 
-                    let customer = getCustomerName(response.customer, value.customer_id);
+                    let customer = getCustomerName(response.customer, Number(value.customer_id));
 
                     let row = `
                         <tr id="index_${value.id}">

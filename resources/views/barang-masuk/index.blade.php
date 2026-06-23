@@ -96,7 +96,7 @@ function resetBarangMasukForm() {
    SUPPLIER NAME
 ========================= */
 function getSupplierName(suppliers, supplierId) {
-    let supplier = suppliers.find(s => s.id === supplierId);
+    let supplier = suppliers.find(s => Number(s.id) === Number(supplierId));
     return supplier ? supplier.supplier : '-';
 }
 
@@ -120,7 +120,7 @@ function loadBarangMasuk() {
 
             $.each(response.data, function (key, value) {
 
-                let supplier = getSupplierName(response.supplier, value.supplier_id);
+                let supplier = getSupplierName(response.supplier, Number(value.supplier_id));
 
                 let row = `
                     <tr id="index_${value.id}">

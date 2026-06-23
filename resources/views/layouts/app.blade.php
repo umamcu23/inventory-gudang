@@ -4,7 +4,9 @@
   <meta charset="UTF-8">
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
   <meta name="csrf-token" content="{{ csrf_token() }}">
-  <title>Inventory Gudang</title>
+  <title>{{ config('app.name') }}</title>
+  <link rel="icon" type="image/png" href="{{ asset('assets/img/logo-skp.png') }}">
+  <link rel="icon" href="{{ asset('favicon.ico') }}">
 
   <!-- General CSS Files -->
   <link rel="stylesheet" href="assets/modules/bootstrap/css/bootstrap.min.css">

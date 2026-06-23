@@ -37,8 +37,13 @@
             min-height: 100dvh;
             display: flex;
             align-items: center;
-            justify-content: center;
-            padding: 20px;
+            
+            /* Geser form ke kanan */
+            justify-content: flex-end;
+
+            /* Jarak dari tepi kanan */
+            padding: 40px 80px;
+
             overflow: hidden;
         }
 
@@ -68,6 +73,7 @@
             z-index: 10;
             width: 100%;
             max-width: 430px;
+            margin-right: 20px;
         }
 
         .login-card {
