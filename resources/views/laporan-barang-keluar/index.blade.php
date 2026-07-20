@@ -192,7 +192,7 @@
             function getCustomerName(customerId, callback){
                 $.getJSON('{{ url('api/customer') }}', function(customers){
                     var customer = customers.find(function(s){
-                        return s.id === customerId;
+                        return Number(s.id) === Number(customerId);
                     });
                     callback(customer ? customer.customer : '');
                 });
