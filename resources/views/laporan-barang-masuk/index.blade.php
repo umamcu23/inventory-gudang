@@ -191,7 +191,7 @@
         function getSupplierName(supplierId, callback) {
             $.getJSON('{{ url('api/supplier') }}', function(suppliers) {
                 var supplier = suppliers.find(function(s) {
-                    return s.id === supplierId;
+                    return Number(s.id) === Number(supplierId);
                 });
                 callback(supplier ? supplier.supplier : '');
             });
